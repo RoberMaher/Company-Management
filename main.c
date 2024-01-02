@@ -112,6 +112,8 @@ int main(void)
             break;
         default:
             printf("Invalid choice!\n");
+            sleep(2);
+            system("cls");
         }
 
     }
