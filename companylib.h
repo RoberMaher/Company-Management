@@ -536,7 +536,7 @@ void deleteEmployeeByID()
             printf("ID: %d\n", e[i].ID);
             printf("Name: %s %s\n", e[i].name.firstname, e[i].name.lastname);
             printf("Salary: %d\n", e[i].salary);
-            printf("Date Of Birthday: %d-%d-%d\n", e[i].DOB.day, e[i].DOB.month, e[i].DOB.year);
+            printf("DOB: %d-%d-%d\n", e[i].DOB.day, e[i].DOB.month, e[i].DOB.year);
             printf("Address: %d %s Street",e[i].Address.home,e[i].Address.street);
             printf("Mobile Number: %s\n", e[i].mobilenumber);
             printf("Date Of Enrollment: %d-%d-%d\n", e[i].DOE.day, e[i].DOE.month, e[i].DOE.year);
@@ -546,6 +546,7 @@ void deleteEmployeeByID()
             // Ask for confirmation before deletion
             printf("Are you sure you want to delete this employee? (1 for Yes, 0 for No): ");
             scanf("%d", &deleteChoice);
+
 
             if (deleteChoice == 1)
             {
@@ -574,12 +575,12 @@ void deleteEmployeeByID()
                             e[j].DOB.day,
                             e[j].DOB.month,
                             e[j].DOB.year,
+                            e[j].Address.home,
                             e[j].Address.street,
                             e[j].mobilenumber,
                             e[j].DOE.day,
                             e[j].DOE.month,
                             e[j].DOE.year,
-                            e[j].Address.home,
                             e[j].email);
                 }
 
