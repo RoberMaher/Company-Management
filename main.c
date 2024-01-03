@@ -17,6 +17,7 @@ int main(void)
 
     int choice;
     int prevChoice = -1;
+    int searchChoice;
 
     do
     {
@@ -42,10 +43,36 @@ int main(void)
             break;
 
         case 2:
-            system("cls");
-            searchByName(searchName, totalNumberOfEmployees);
-            prevChoice = 2;
+            do
+            {
+                system("cls");
+                searchByName(searchName, totalNumberOfEmployees);
+                prevChoice = 2;
+
+                printf("\nPress 1 for another search.");
+                printf("\nPress 0 to go back to the main menu.");
+
+                do
+                {
+                printf("\nEnter The Number: ");
+                scanf("%d", &searchChoice);
+
+                    if (searchChoice == 0)
+                    {
+                        system("cls");
+                        break;
+                    }
+                    else if (searchChoice != 1)
+                    {
+                        printf("Invalid choice during another search!\n");
+                    }
+                }
+                while (searchChoice != 0 && searchChoice != 1);
+            }
+            while (searchChoice == 1);
+
             break;
+
 
         case 3:
             system("cls");
@@ -60,6 +87,8 @@ int main(void)
             if (choice == 00)
             {
                 choice = prevChoice;
+                system("cls");
+
             }
             else
             {
@@ -81,9 +110,9 @@ int main(void)
                     printf("Invalid choice for sorting!\n");
                     break;
                 }
+                printEmployees();
             }
 
-            printEmployees();
             prevChoice = 3;
             break;
 
