@@ -2,6 +2,7 @@
 #define COMPANYLIB_H_INCLUDED
 
 #include <string.h>
+#include <stdbool.h>
 #include <time.h>
 #define MAX_EMPLOYEES 1000
 
@@ -28,7 +29,7 @@ typedef struct
 {
     int ID;
     name name;
-    int salary;
+    float salary;
     date DOB;
     address Address;
     char mobilenumber[20];
@@ -43,7 +44,7 @@ char searchName[10];
 int totalNumberOfEmployees = 0;
 int isValid;
 int i;
-int flag=0;
+int flag = 0;
 struct tm tm;
 
 void loadEmployees()
@@ -59,7 +60,7 @@ void loadEmployees()
         if (c == '\n')
         {
             line[i] = '\0'; // Null-terminate the string
-            sscanf(line, "%d ,%s %s ,%d ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s",
+            sscanf(line, "%d ,%s %s ,%f ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s",
                    &e[totalNumberOfEmployees].ID,
                    e[totalNumberOfEmployees].name.firstname,
                    e[totalNumberOfEmployees].name.lastname,
@@ -178,7 +179,7 @@ void ADDEMPLOYEE()
         scanf("%s %s", e[totalNumberOfEmployees].name.firstname, e[totalNumberOfEmployees].name.lastname);
 
         printf("Enter The Salary: ");
-        scanf("%d", &e[totalNumberOfEmployees].salary);
+        scanf("%0.2f", &e[totalNumberOfEmployees].salary);
 
         do
         {
@@ -232,7 +233,7 @@ void ADDEMPLOYEE()
         e[totalNumberOfEmployees].DOE.month = tm.tm_mon + 1;
         e[totalNumberOfEmployees].DOE.year = tm.tm_year + 1900;
 
-        fprintf(f, "%d ,%s %s ,%d ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s\n",
+        fprintf(f, "%d ,%s %s ,%0.2f ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s\n",
                 e[totalNumberOfEmployees].ID,
                 e[totalNumberOfEmployees].name.firstname,
                 e[totalNumberOfEmployees].name.lastname,
@@ -272,7 +273,7 @@ void searchByName(char *searchName, int numberOfEmployees)
         {
             printf("ID: %d\n", e[i].ID);
             printf("Name: %s %s\n", e[i].name.firstname, e[i].name.lastname);
-            printf("Salary: %d\n", e[i].salary);
+            printf("Salary: %0.2f\n", e[i].salary);
             printf("Date Of Birthday: %d-%d-%d\n", e[i].DOB.day, e[i].DOB.month, e[i].DOB.year);
             printf("Address: %d %s Street\n",e[i].Address.home, e[i].Address.street);
             printf("Mobile Number: %s\n", e[i].mobilenumber);
@@ -363,7 +364,7 @@ void printEmployees()
     {
         printf("ID: %d\n", e[i].ID);
         printf("Name: %s %s\n", e[i].name.firstname, e[i].name.lastname);
-        printf("Salary: %d\n", e[i].salary);
+        printf("Salary: %0.2f\n", e[i].salary);
         printf("Date Of Birthday: %d-%d-%d\n", e[i].DOB.day, e[i].DOB.month, e[i].DOB.year);
         printf("Address: %d %s Street\n",e[i].Address.home, e[i].Address.street);
         printf("Mobile Number: %s\n", e[i].mobilenumber);
@@ -390,7 +391,7 @@ void modifyFieldByID(void)
             printf("\nOld Employee Details:\n");
             printf("ID: %d\n", e[i].ID);
             printf("Name: %s %s\n", e[i].name.firstname, e[i].name.lastname);
-            printf("Salary: %d\n", e[i].salary);
+            printf("Salary: %0.2f\n", e[i].salary);
             printf("Date Of Birthday: %d-%d-%d\n", e[i].DOB.day, e[i].DOB.month, e[i].DOB.year);
             printf("Address: %d %s Street\n",e[i].Address.home, e[i].Address.street);
             printf("Mobile Number: %s\n", e[i].mobilenumber);
@@ -429,7 +430,7 @@ void modifyFieldByID(void)
 
     case 2:
         printf("\nEnter the new salary: ");
-        scanf("%d", &e[employeefield].salary);
+        scanf("%0.2f", &e[employeefield].salary);
         break;
 
     case 3:
@@ -485,7 +486,7 @@ void modifyFieldByID(void)
 
     for (int j = 0; j < totalNumberOfEmployees; j++)
     {
-        fprintf(f, "%d ,%s %s ,%d ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s\n",
+        fprintf(f, "%d ,%s %s ,%0.2f ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s\n",
                 e[j].ID,
                 e[j].name.firstname,
                 e[j].name.lastname,
@@ -501,14 +502,14 @@ void modifyFieldByID(void)
                 e[j].DOE.year,
                 e[j].email);
     }
-
+    fclose(f);
     printf("\nField modified successfully!\n");
 
     // Display the modified employee details
     printf("\nModified Employee Details:\n");
     printf("ID: %d\n", e[employeefield].ID);
     printf("Name: %s %s\n", e[employeefield].name.firstname, e[employeefield].name.lastname);
-    printf("Salary: %d\n", e[employeefield].salary);
+    printf("Salary: %0.2f\n", e[employeefield].salary);
     printf("Date Of Birthday: %d-%d-%d\n", e[employeefield].DOB.day, e[employeefield].DOB.month, e[employeefield].DOB.year);
     printf("Address: %d %s Street\n",e[employeefield].Address.home, e[employeefield].Address.street);
     printf("Mobile Number: %s\n", e[employeefield].mobilenumber);
@@ -535,7 +536,7 @@ void deleteEmployeeByID()
             printf("\nEmployee Details to be Deleted:\n");
             printf("ID: %d\n", e[i].ID);
             printf("Name: %s %s\n", e[i].name.firstname, e[i].name.lastname);
-            printf("Salary: %d\n", e[i].salary);
+            printf("Salary: %0.2f\n", e[i].salary);
             printf("DOB: %d-%d-%d\n", e[i].DOB.day, e[i].DOB.month, e[i].DOB.year);
             printf("Address: %d %s Street",e[i].Address.home,e[i].Address.street);
             printf("Mobile Number: %s\n", e[i].mobilenumber);
@@ -567,7 +568,7 @@ void deleteEmployeeByID()
 
                 for (int j = 0; j < totalNumberOfEmployees; j++)
                 {
-                    fprintf(f, "%d ,%s %s ,%d ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s\n",
+                    fprintf(f, "%d ,%s %s ,%0.2f ,%d-%d-%d ,%d %s Street ,%s ,%d-%d-%d ,%s\n",
                             e[j].ID,
                             e[j].name.firstname,
                             e[j].name.lastname,
@@ -583,7 +584,7 @@ void deleteEmployeeByID()
                             e[j].DOE.year,
                             e[j].email);
                 }
-
+                fclose(f);
                 printf("Employee deleted successfully!\n");
             }
             else
