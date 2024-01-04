@@ -4,6 +4,7 @@
 
 #include "companylib.h"
 
+
 int main(void)
 {
     f = fopen("The Company.txt", "a+");
@@ -15,24 +16,41 @@ int main(void)
 
     loadEmployees();
 
-    int choice;
+    int inputChoice;
     int prevChoice = -1;
     int searchChoice;
 
-    do
+    while (1)  // Infinite loop
     {
-        printf("\nPress 1 for Add a New Employee.");
-        printf("\nPress 2 for Search for Employee.");
-        printf("\nPress 3 for Sorting.");
-        printf("\nPress 4 for Modify.");
-        printf("\nPress 5 for Delete an Employee.");
-        printf("\nPress 6 for print the Employees.");
-        printf("\nPress 0 to Exit and Save.");
+        while (1)
+        {
+            printf("\nPress 1 for Add a New Employee.");
+            printf("\nPress 2 for Search for Employee.");
+            printf("\nPress 3 for Sorting.");
+            printf("\nPress 4 for Modify.");
+            printf("\nPress 5 for Delete an Employee.");
+            printf("\nPress 6 for print the Employees.");
+            printf("\nPress 0 to Exit and Save.");
 
-        printf("\nEnter The Number: ");
-        scanf("%d", &choice);
+            char input[10];
 
-        switch (choice)
+            printf("\nEnter The Number: ");
+            scanf("%s", input);
+
+            if (!isNumeric(input))
+            {
+                flag = 1;
+                printf("The choise Must Be Only Numbers.\n\n");
+                sleep(2);
+                system("cls");
+            }
+            else
+            {
+                inputChoice = atoi(input);
+                break;
+            }
+        }
+        switch (inputChoice)
         {
         case 1:
             system("cls");
@@ -54,8 +72,8 @@ int main(void)
 
                 do
                 {
-                printf("\nEnter The Number: ");
-                scanf("%d", &searchChoice);
+                    printf("\nEnter The Number: ");
+                    scanf("%d", &searchChoice);
 
                     if (searchChoice == 0)
                     {
@@ -73,26 +91,40 @@ int main(void)
 
             break;
 
+case 3:
+    while (1)
+    {
+        system("cls");
+        printf("\nPress 1 for Sort By Name.");
+        printf("\nPress 2 for Sort By Date Of Birthday.");
+        printf("\nPress 3 for Sort By Salary.");
+        printf("\nPress 00 to go back.");
 
-        case 3:
+        char input[10];
+
+        printf("\nEnter The Number: ");
+        scanf("%s", input);
+
+        if (!isNumeric(input))
+        {
+            flag = 1;
+            printf("The choice Must Be Only Numbers.\n\n");
+            sleep(2);
             system("cls");
-            printf("\nPress 1 for Sort By Name.");
-            printf("\nPress 2 for Sort By Date Of Birthday.");
-            printf("\nPress 3 for Sort By Salary.");
-            printf("\nPress 00 to go back.");
+        }
+        else
+        {
+            inputChoice = atoi(input);
 
-            printf("\nEnter The Number: ");
-            scanf("%d", &choice);
-
-            if (choice == 00)
+            if (inputChoice == 0)
             {
-                choice = prevChoice;
+                inputChoice = prevChoice;
                 system("cls");
-
+                break;
             }
             else
             {
-                switch (choice)
+                switch (inputChoice)
                 {
                 case 1:
                     system("cls");
@@ -110,11 +142,15 @@ int main(void)
                     printf("Invalid choice for sorting!\n");
                     break;
                 }
-                printEmployees();
-            }
 
-            prevChoice = 3;
-            break;
+                printEmployees();
+                prevChoice = 3;
+                break;
+            }
+        }
+    }
+    break;
+
 
         case 4:
             system("cls");
@@ -138,15 +174,15 @@ int main(void)
 
         case 0:
             printf("Exiting the program.\n");
-            break;
+            fclose(f);
+            return 0;  // Exit the program
+
         default:
             printf("Invalid choice!\n");
             sleep(2);
             system("cls");
         }
-
     }
-    while (choice != 0);
 
     fclose(f);
     return 0;
