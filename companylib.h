@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
+
 #define MAX_EMPLOYEES 1000
 
 typedef struct
@@ -34,7 +36,7 @@ typedef struct
     address Address;
     char mobilenumber[20];
     date DOE;
-    char email[30];
+    char email[50];
 } employee;
 
 employee e[MAX_EMPLOYEES];
@@ -52,7 +54,7 @@ void loadEmployees()
 
     int c;
     int i = 0;
-    char line[100]; // Assuming a reasonable line length
+    char line[150]; // Assuming a reasonable line length
 
     while ((c = getc(f)) != EOF)
     {
@@ -148,29 +150,57 @@ void getCurrentDate(struct tm *tm)
     *tm = *localtime(&t);
 }
 
+int isNumeric(const char *str) {
+    if (str == NULL || *str == '\0') {
+        return 0; // Empty string or NULL pointer
+    }
+
+    while (*str) {
+        if (!isdigit(*str)) {
+            return 0; // Non-digit character found
+        }
+        str++;
+    }
+
+    return 1; // All characters are digits
+}
+
 void ADDEMPLOYEE()
 {
     if (totalNumberOfEmployees < MAX_EMPLOYEES)
     {
         int newID;
+        char idInput[20]; // Input buffer for ID
 
         do
         {
             isValid = 1;
-            printf("Enter The ID: ");
-            scanf("%d", &newID);
 
-            for (int i = 0; i < totalNumberOfEmployees; i++)
+            printf("Enter The ID: ");
+            scanf("%s", idInput);
+
+            if (!isNumeric(idInput))
             {
-                if (e[i].ID == newID)
+                isValid = 0;
+                printf("The ID Must Be Only Numbers.\n\n");
+            }
+            else
+            {
+                newID = atoi(idInput); // Convert string to integer
+                for (int i = 0; i < totalNumberOfEmployees; i++)
                 {
-                    isValid = 0;
-                    printf("ID already exists. Please enter a unique ID.\n\n");
-                    break;
+                    if (e[i].ID == newID)
+                    {
+                        isValid = 0;
+                        printf("ID already exists. Please enter a unique ID.\n\n");
+                        break;
+                    }
                 }
             }
         }
         while (!isValid);
+
+
 
         e[totalNumberOfEmployees].ID = newID;
 
@@ -378,6 +408,7 @@ void modifyFieldByID(void)
 {
     int employeefield = -1;
     int employeeID;
+    int inputChoice;
 
     printf("Enter the ID of the employee to modify: ");
     scanf("%d", &employeeID);
@@ -409,18 +440,38 @@ void modifyFieldByID(void)
         return;
     }
 
-    int fieldChoice;
-
     printf("\nSelect the field to modify:\n");
     printf("1. Name\n");
     printf("2. Salary\n");
     printf("3. Mobile Number\n");
     printf("4. Address\n");
     printf("5. Email\n");
-    printf("\nEnter the field number: ");
-    scanf("%d", &fieldChoice);
+    printf("Press 00 to go back.\n");
 
-    switch (fieldChoice)
+    while (1)
+    {
+        printf("\nEnter The Number: ");
+        int scanfResult = scanf("%d", &inputChoice);
+
+        if (scanfResult != 1)
+        {
+            printf("Invalid input. Please enter a number.\n");
+
+            // Clear the input buffer
+            while (getchar() != '\n');
+        }
+        else if (inputChoice == 0)
+        {
+            system("cls");
+            return;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    switch (inputChoice)
     {
     case 1:
         printf("\nEnter the new name (First and last): ");
@@ -532,6 +583,7 @@ void modifyFieldByID(void)
         system("cls");
     }
 }
+
 
 // Function to delete an employee by ID
 void deleteEmployeeByID()
